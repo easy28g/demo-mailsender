@@ -26,5 +26,15 @@ public class UserService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
     }
+
+    public boolean activateUser(String code){
+        User user = userRepo.findByActivatedCode(code);
+        if(user==null){
+            return false;
+        }
+        user.setActivatedCode(null);
+        userRepo.save(user);
+        return true;
+    }
     
 }
